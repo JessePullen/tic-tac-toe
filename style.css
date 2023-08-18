@@ -15,6 +15,7 @@ button {
     height: 50px;
     border-radius: 5px;
     border: 1px black solid;
+    cursor: pointer;
 }
 
 .game {
@@ -33,5 +34,12 @@ button {
 }
 
 .grid-item {
+    display: flex;
     border: 1px black solid;
+    cursor: pointer;
+    font-size: 100px;
+    align-items: center;
+    justify-content: center;
+    min-height: 165px;
+    min-width: 165px;
 }
