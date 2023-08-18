@@ -38,13 +38,14 @@ const gameBoard = (() => {
             });
         });
     };
+    // Resets board by replacing all grid items with no content
     const newBoard = () => {
         const gridItems = document.querySelectorAll('.grid-item');
         gridItems.forEach((gridItem) => {
             gridItem.textContent = '';
         });
-
     }
+    // New game button resets board and player turn
     const button = document.querySelector('button');
     button.addEventListener('click', () => {
         gameBoard.newBoard();
@@ -58,9 +59,11 @@ const gameController = (() => {
     const players = [player1, player2];
     let turn = 0;
     let playerToken = players[turn].token;
+    // Returns token for player whose turn it is
     const playerTurn = () => {
         return players[turn].token;
     };
+    // Changes turn when token is placed on board
     const changeTurn = () => {
         if (turn === 0) {
             turn = 1;
@@ -68,6 +71,7 @@ const gameController = (() => {
             turn = 0;
         }
     }
+    // Resets turn to player1 when new game button is pressed
     const resetTurn = () => {
         turn = 0;
     }
