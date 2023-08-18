@@ -32,8 +32,8 @@ const gameBoard = (() => {
         gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', () => {
                 if (gridItem.textContent === '') {
-                    gridItem.textContent = gameController.playerToken;
-                    // changeTurn();
+                    gridItem.textContent = gameController.playerTurn();
+                    gameController.changeTurn();
                 }
             });
         });
@@ -43,15 +43,20 @@ const gameBoard = (() => {
 
 // Used to make turns and game logic
 const gameController = (() => {
+    const players = [player1, player2];
+    let turn = 0;
+    let playerToken = players[turn].token;
     const playerTurn = () => {
-        // Change player turn on grid item being populated
-        //let token = player1.token
+        return players[turn].token;
     };
     const changeTurn = () => {
-        
+        if (turn === 0) {
+            turn = 1;
+        } else {
+            turn = 0;
+        }
     }
-    let playerToken = player1.token;
-    return { playerToken };
+    return { playerToken, turn, changeTurn, playerTurn };
 })();
 
 gameBoard.setBoard();
