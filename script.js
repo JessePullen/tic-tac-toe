@@ -21,7 +21,7 @@ const gameBoard = (() => {
             for (index in board[columns]) {
                 const grid = document.createElement('div');
                 grid.classList.add('grid-item');
-                grid.classList.add(`${columns+index}`);
+                grid.classList.add(`${columns + index}`);
                 gridContainer.appendChild(grid);
             }
         }
@@ -38,7 +38,19 @@ const gameBoard = (() => {
             });
         });
     };
-    return { board, setBoard, makeMove };
+    const newBoard = () => {
+        const gridItems = document.querySelectorAll('.grid-item');
+        gridItems.forEach((gridItem) => {
+            gridItem.textContent = '';
+        });
+
+    }
+    const button = document.querySelector('button');
+    button.addEventListener('click', () => {
+        gameBoard.newBoard();
+        gameController.resetTurn();
+    });
+    return { board, setBoard, makeMove, newBoard };
 })();
 
 // Used to make turns and game logic
@@ -56,7 +68,10 @@ const gameController = (() => {
             turn = 0;
         }
     }
-    return { playerToken, turn, changeTurn, playerTurn };
+    const resetTurn = () => {
+        turn = 0;
+    }
+    return { playerToken, turn, changeTurn, playerTurn, resetTurn };
 })();
 
 gameBoard.setBoard();
