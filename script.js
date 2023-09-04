@@ -35,7 +35,6 @@ const gameBoard = (() => {
                     gridItem.textContent = gameController.playerTurn();
                     gameController.changeTurn();
                     gameController.updateBoard();
-                    gameController.checkWinner();
                 }
             });
         });
@@ -87,7 +86,7 @@ const gameController = (() => {
         [[0], [4], [8]], //diagonal top-left to bottom-right
         [[2], [4], [6]]  //diagonal top-right to bottom-left
     ]
-
+    // Adds current board positions to an array
     const updateBoard = () => {
         let currentBoard = [];
 
@@ -96,12 +95,29 @@ const gameController = (() => {
         gridItems.forEach((gridItem) => {
             currentBoard.push(gridItem.textContent);
         });
+
+        checkWinner(currentBoard);
     }
-
-    const checkWinner = () => {
-
+    // Uses currentBoard array and winningMoves array to determine a winner which is then announced
+    const checkWinner = (currentBoard) => {
+        winningMoves.forEach(moves => {
+            let player1Count = 0;
+            let player2Count = 0;
+            moves.forEach(index => {
+                if (currentBoard[index] === player1.token) {
+                    player1Count++
+                } else if (currentBoard[index] === player2.token) {
+                    player2Count++
+                }
+            });
+            if (player1Count === 3) {
+                console.log(`${player1.name} wins!`);
+            } else if (player2Count === 3) {
+                console.log(`${player2.name} wins!`);
+            }
+        });
     };
-    return { playerToken, turn, winningMoves, changeTurn, playerTurn, resetTurn, updateBoard, checkWinner };
+    return { playerToken, turn, winningMoves, changeTurn, playerTurn, resetTurn, updateBoard };
 })();
 
 gameBoard.setBoard();
