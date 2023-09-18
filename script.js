@@ -100,6 +100,7 @@ const gameController = (() => {
     }
     // Uses currentBoard array and winningMoves array to determine a winner which is then announced
     const checkWinner = (currentBoard) => {
+        let winner = {};
         winningMoves.forEach(moves => {
             let player1Count = 0;
             let player2Count = 0;
@@ -111,12 +112,21 @@ const gameController = (() => {
                 }
             });
             if (player1Count === 3) {
-                console.log(`${player1.name} wins!`);
+                winner = player1;
             } else if (player2Count === 3) {
-                console.log(`${player2.name} wins!`);
+                winner = player2;
             }
         });
+        announceWinner(winner);
     };
+    // Announces winner by alert
+    announceWinner = (winner) => {
+        if (winner === player1) {
+            alert(`${player1.name} wins!`);
+        } else if (winner === player2) {
+            alert(`${player2.name} wins!`);
+        }
+    }
     return { playerToken, turn, winningMoves, changeTurn, playerTurn, resetTurn, updateBoard };
 })();
 
