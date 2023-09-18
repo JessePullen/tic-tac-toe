@@ -29,6 +29,7 @@ const gameBoard = (() => {
     // Allows each grid item to be clicked on and to call a function on click
     const makeMove = () => {
         const gridItems = document.querySelectorAll('.grid-item');
+
         gridItems.forEach((gridItem) => {
             gridItem.addEventListener('click', () => {
                 if (gridItem.textContent === '') {
@@ -36,6 +37,7 @@ const gameBoard = (() => {
                     gameController.changeTurn();
                     gameController.updateBoard();
                 }
+                gameController.tie();
             });
         });
     };
@@ -45,6 +47,7 @@ const gameBoard = (() => {
         gridItems.forEach((gridItem) => {
             gridItem.textContent = '';
         });
+        gameController.resetTieCount();
     }
     // New game button resets board and player turn
     const button = document.querySelector('button');
@@ -60,6 +63,7 @@ const gameController = (() => {
     const players = [player1, player2];
     let turn = 0;
     let playerToken = players[turn].token;
+    let tieCount = 0;
     // Returns token for player whose turn it is
     const playerTurn = () => {
         return players[turn].token;
@@ -104,6 +108,7 @@ const gameController = (() => {
         winningMoves.forEach(moves => {
             let player1Count = 0;
             let player2Count = 0;
+
             moves.forEach(index => {
                 if (currentBoard[index] === player1.token) {
                     player1Count++
@@ -111,23 +116,37 @@ const gameController = (() => {
                     player2Count++
                 }
             });
+
             if (player1Count === 3) {
                 winner = player1;
             } else if (player2Count === 3) {
                 winner = player2;
             }
+            
         });
         announceWinner(winner);
     };
     // Announces winner by alert
-    announceWinner = (winner) => {
+    const announceWinner = (winner) => {
         if (winner === player1) {
             alert(`${player1.name} wins!`);
         } else if (winner === player2) {
             alert(`${player2.name} wins!`);
         }
     }
-    return { playerToken, turn, winningMoves, changeTurn, playerTurn, resetTurn, updateBoard };
+    // Adds to count on each move, when count reaches 9 maximum moves has been reached without a winner
+    const tie = () => {
+        tieCount++
+        if (tieCount === 9) {
+            alert("It's a tie");
+        }
+        console.log('test tie count ', tieCount);
+    }
+    // Resets count for new game
+    const resetTieCount = () => {
+        tieCount = 0;
+    }
+    return { playerToken, turn, winningMoves, tieCount, changeTurn, playerTurn, resetTurn, updateBoard, tie, resetTieCount };
 })();
 
 gameBoard.setBoard();
